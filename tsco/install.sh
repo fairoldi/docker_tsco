@@ -50,6 +50,17 @@ else
 fi 
 
 echo "Done"
+echo 
+echo "Environment up and running..."
+echo "make sure your /etc/hosts file looks like this to access components"
+echo "    127.0.0.1    localhost ${TSCO_FQDN} ${TSSO_FQDN} ${TSPS_FQDN} ${DB_FQDN}"
+echo 
+echo "Default accounts:"
+echo "    RSSO       - username: Admin        password: RSSO#Admin#"
+echo "    TSCO, TSPS - username: admin        password: admin12345"
+echo "    DB         - username: postgres     password: postgres"
+echo "    DB         - username: BCO_OWN      password: BmcCapacity_OWN"
+echo "    DB         - username: BCO_REP      password: BmcCapacity_REP"
 sleep infinity
 
 

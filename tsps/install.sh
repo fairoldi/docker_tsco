@@ -13,7 +13,7 @@ export LANGUAGE=en_US.UTF-8
 
 if [ -f /opt/bmc/TrueSightPServer/truesightpserver/bin/tssh ]; then
     echo "TSPS already installed, starting"
-    su - bmc -c "cd /opt/bmc/TrueSightPServer/truesightpserver/bin; ./tssh server start"
+    su - bmc -c "cd /opt/bmc/TrueSightPServer/truesightpserver/bin; ./tssh server start force"
 else
 
     echo "Adding user"
@@ -42,6 +42,7 @@ else
     /opt/installers/Linux/Disk1/utility/PreinstallConfig.sh bmc
     echo "  Starting installer"
     su bmc -c "/opt/installers/Linux/Disk1/setup.bin -i silent -DOPTIONS_FILE=/opt/tsps.conf -J MINIMAL=true"
+    echo "skipResourceCheck=true" >> /opt/bmc/TrueSightPServer/truesightpserver/conf/custom/csr.conf
 fi 
 
 echo "Done"

@@ -27,6 +27,8 @@ services:
     stdin_open: true
     tty: true
     command: ['/opt/wait-for-it.sh', 'tsso:8048', '-t', '0', '--', '/opt/install.sh']
+    links:
+      - tsso:${TSCO_HOSTNAME}.${DOMAIN}
 
   db:
     hostname: ${DB_HOSTNAME}.${DOMAIN}
