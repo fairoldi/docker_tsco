@@ -20,8 +20,8 @@ This also works on windows as long as you install docker for windows
 
 HOW TO USE
 ----------
- 1. Obtain tarballs for all components, and place them in the appropriate 
-    directories. The structure should be as follows:
+1. Obtain tarballs for all components, and place them in the appropriate 
+   directories. The structure should be as follows:
 
         docker_tsco
         |- tsco 
@@ -32,12 +32,12 @@ HOW TO USE
         |   \- Remedy_Single_Sign-On_for_TrueSight_Version_11.3.01_Linux.tar.gz
         \- db
 
-  Keep in mind that if the files you download have different names, you will 
-  have to edit the relative Dockerfile and install.sh scripts accordingly.
- 2. edit the .env file only if you need to modify hostnames or domain
- 3. run 'docker-compose up' from this directory
- 4. wait 5 to 10 minutes
- 5. everything should be up and running
+   Keep in mind that if the files you download have different names, you will 
+   have to edit the relative Dockerfile and install.sh scripts accordingly.
+2. edit the .env file only if you need to modify hostnames or domain
+3. run 'docker-compose up' from this directory
+4. wait 5 to 10 minutes
+5. everything should be up and running
 
 NOTES:
 ------
