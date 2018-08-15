@@ -1,0 +1,54 @@
+DOCKER COMPOSE FOR TSCO 
+=======================
+This projects allow to instantiante a complete TSCO 11.3.01 environment
+using docker and docker-COMPOSE.
+
+It uses defaults for almost everyhing (ports, db users, passwords)
+The only exception is the OS user to run the software: the 'bmc'
+account is used for all tools.
+
+The .env file allows to customize hostnames and domain for the components,
+However it is mainly used to pass information to the installers.
+
+REQUIREMENTS
+------------
+ * docker (this was developed on 18.06)
+ * docker-compose 
+ * AT LEAST 7GB of available RAM
+This also works on windows as long as you install docker for windows
+(which already includes docker-compose)
+
+HOW TO USE
+----------
+ 1) Obtain tarballs for all components, and place them in the appropriate 
+    directories. The structure should be as follows:
+
+        docker_tsco
+        |- tsco 
+        |   \- TSCO_AppServer_ver11.3.01_Linux.tar.gz
+        |- tsps 
+        |   \- TrueSight_Presentation_Server_11.3.01_Linux.tar.gz
+        |- tsso 
+        |   \- Remedy_Single_Sign-On_for_TrueSight_Version_11.3.01_Linux.tar.gz
+        \- db
+
+    Keep in mind that if the files you download have different names, you will 
+    have to edit the relative Dockerfile and install.sh scripts accordingly.
+ 2) edit the .env file only if you need to modify hostnames or domain
+ 3) run 'docker-compose up' from this directory
+ 3) wait 5 to 10 minutes
+ 4) everything should be up and running
+
+NOTES:
+------
+ * unless you prune the containers, the install scripts do not reinstall 
+   components it they find them on the filesystems. This means that
+   your install will persist reboots and that running 'docker-compose up'
+   will be a lot faster
+
+KNOWN ISSUES:
+-------------
+ * you can't run this twice on the same host, as ports exposed by containers 
+   will clash
+ * CHFs are not automatically downloaded and applied
+ * TSCO is not automatically registered on TSPS
