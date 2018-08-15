@@ -1,16 +1,32 @@
 version: '3'
 services:
-  tsps:
+
+  tsso:
     privileged: true
-    hostname: ${TSPS_HOSTNAME}.${DOMAIN}
-    build: tsps
+    hostname: ${TSSO_HOSTNAME}.${DOMAIN}
+    build: tsso
     ports:
-      - '8043:8043'
       - '8048:8048'
     env_file:
       - .env
     stdin_open: true
     tty: true
+
+  tsps:
+    privileged: true
+    depends_on:
+      - tsso
+    hostname: ${TSPS_HOSTNAME}.${DOMAIN}
+    build: tsps
+    ports:
+      - '8043:8043'
+    env_file:
+      - .env
+    links:
+      - tsso:${TSSO_HOSTNAME}.${DOMAIN}
+    stdin_open: true
+    tty: true
+    command: ['/opt/wait-for-it.sh', 'tsso:8048', '-t', '0', '--', '/opt/install.sh']
 
   db:
     hostname: ${DB_HOSTNAME}.${DOMAIN}
@@ -20,6 +36,8 @@ services:
       - '5432:5432'
     env_file:
       - .env
+    environment:
+      - POSTGRES_PASSWORD=postgres
 
   tsco:
     depends_on:
@@ -34,6 +52,7 @@ services:
       - '8443:8443'
       - '8280:8280'
     links:
+      - tsso:${TSSO_HOSTNAME}.${DOMAIN}
       - tsps:${TSPS_HOSTNAME}.${DOMAIN}
       - db:${DB_HOSTNAME}.${DOMAIN}
     stdin_open: true
