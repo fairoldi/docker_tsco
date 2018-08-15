@@ -20,7 +20,7 @@ This also works on windows as long as you install docker for windows
 
 HOW TO USE
 ----------
- # Obtain tarballs for all components, and place them in the appropriate 
+ 1. Obtain tarballs for all components, and place them in the appropriate 
     directories. The structure should be as follows:
 
         docker_tsco
@@ -34,10 +34,10 @@ HOW TO USE
 
   Keep in mind that if the files you download have different names, you will 
   have to edit the relative Dockerfile and install.sh scripts accordingly.
- # edit the .env file only if you need to modify hostnames or domain
- # run 'docker-compose up' from this directory
- # wait 5 to 10 minutes
- # everything should be up and running
+ 2. edit the .env file only if you need to modify hostnames or domain
+ 3. run 'docker-compose up' from this directory
+ 4. wait 5 to 10 minutes
+ 5. everything should be up and running
 
 NOTES:
 ------
