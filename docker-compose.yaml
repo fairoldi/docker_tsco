@@ -1,7 +1,7 @@
 version: '3'
 
 networks:
-  tsco_net:
+  ? tsco_net
 
 services:
   tsso:
@@ -35,7 +35,13 @@ services:
           - ${TSPS_HOSTNAME}.${DOMAIN}
     stdin_open: true
     tty: true
-    command: ['/opt/wait-for-it.sh', 'tsso:8048', '-t', '0', '--', '/opt/install.sh']
+    command:
+      ['/opt/wait-for-it.sh', 'tsso:8048', '-t', '0', '--', '/opt/install.sh']
+    ulimits:
+      as: unlimited
+      nofile: 65536
+      nproc: 4096
+      memlock: unlimited
 
   db:
     hostname: ${DB_HOSTNAME}.${DOMAIN}
@@ -70,4 +76,5 @@ services:
           - ${TSCO_HOSTNAME}.${DOMAIN}
     stdin_open: true
     tty: true
-    command: ['/opt/wait-for-it.sh', 'tsps:8043', '-t', '0', '--', '/opt/install.sh']
+    command:
+      ['/opt/wait-for-it.sh', 'tsps:8043', '-t', '0', '--', '/opt/install.sh']
