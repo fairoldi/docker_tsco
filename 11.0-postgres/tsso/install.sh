@@ -24,6 +24,7 @@ else
     tar xzf Remedy_Single_Sign-On_for_TrueSight_Version_11.0_Linux.tar.gz
 
     echo "  Generating RSSO DB passwords"
+    chmod +x /opt/installers/Disk1/utility/TrueSightRSSOMaintenanceTool.sh
     TSSO_DB_USER_PASSWORD=`/opt/installers/Disk1/utility/TrueSightRSSOMaintenanceTool.sh -silent -encrypt -encrypt -password=Password01 -confirm_password=Password01`
     TSSO_DB_ADMIN_PASSWORD=`/opt/installers/Disk1/utility/TrueSightRSSOMaintenanceTool.sh -silent -encrypt -encrypt -password=Password01 -confirm_password=Password01`
 

@@ -27,6 +27,7 @@ else
     tar xzf TrueSight_Presentation_Server_11.0.00_Linux.tar.gz 
 
     echo "  Generating TSPS password"
+    chmod +x /opt/installers/Linux/Disk1/utility/TrueSightPServerMaintenanceTool.sh
     TSPS_DB_PASSWORD=`/opt/installers/Linux/Disk1/utility/TrueSightPServerMaintenanceTool.sh -silent -encrypt -encrypt -password='Password01' -confirm_password='Password01'`
     TSSO_ADMIN_PASSWORD=`/opt/installers/Linux/Disk1/utility/TrueSightPServerMaintenanceTool.sh -silent -encrypt -encrypt -password='RSSO#Admin#' -confirm_password='RSSO#Admin#'`
 
@@ -39,6 +40,7 @@ else
     cat /opt/tsps.conf
 
     echo "  Running prereq script"
+    chmod +x /opt/installers/Linux/Disk1/utility/PreinstallConfig.sh
     /opt/installers/Linux/Disk1/utility/PreinstallConfig.sh bmc
     echo "  Starting installer"
     su bmc -c "/opt/installers/Linux/Disk1/setup.bin -i silent -DOPTIONS_FILE=/opt/tsps.conf -J MINIMAL=true"
