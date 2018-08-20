@@ -1,6 +1,7 @@
 FROM centos:7
 EXPOSE 8443:8443/tcp
 EXPOSE 8280:8280/tcp
+EXPOSE 10000-10200:10000-10200/tcp
 
 WORKDIR /opt
 COPY ./tsco.conf /opt/

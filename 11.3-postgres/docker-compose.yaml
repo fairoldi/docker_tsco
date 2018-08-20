@@ -70,6 +70,7 @@ services:
     ports:
       - '8443:8443'
       - '8280:8280'
+      - '10000-10200:10000-10200'
     networks:
       tsco_net:
         aliases:
