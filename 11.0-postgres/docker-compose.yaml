@@ -1,0 +1,79 @@
+version: '3'
+
+networks:
+  ? tsco_net
+
+services:
+  tsso:
+    privileged: true
+    hostname: ${TSSO_HOSTNAME}.${DOMAIN}
+    build: tsso
+    ports:
+      - '8048:8048'
+    env_file:
+      - .env
+    stdin_open: true
+    tty: true
+    networks:
+      tsco_net:
+        aliases:
+          - ${TSSO_HOSTNAME}.${DOMAIN}
+
+  tsps:
+    privileged: true
+    depends_on:
+      - tsso
+    hostname: ${TSPS_HOSTNAME}.${DOMAIN}
+    build: tsps
+    ports:
+      - '8043:8043'
+    env_file:
+      - .env
+    networks:
+      tsco_net:
+        aliases:
+          - ${TSPS_HOSTNAME}.${DOMAIN}
+    stdin_open: true
+    tty: true
+    command:
+      ['/opt/wait-for-it.sh', 'tsso:8048', '-t', '0', '--', '/opt/install.sh']
+    ulimits:
+      as: -1
+      nofile: 65536
+      nproc: 4096
+      memlock: -1
+
+  db:
+    hostname: ${DB_HOSTNAME}.${DOMAIN}
+    privileged: true
+    build: db
+    ports:
+      - '5432:5432'
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      tsco_net:
+        aliases:
+          - ${DB_HOSTNAME}.${DOMAIN}
+  # tsco:
+  #   depends_on:
+  #     - db
+  #     - tsps
+  #   env_file:
+  #     - .env
+  #   hostname: ${TSCO_HOSTNAME}.${DOMAIN}
+  #   privileged: true
+  #   build: tsco
+  #   ports:
+  #     - '8443:8443'
+  #     - '8280:8280'
+  #   networks:
+  #     tsco_net:
+  #       aliases:
+  #         - ${TSCO_HOSTNAME}.${DOMAIN}
+  #   stdin_open: true
+  #   tty: true
+  #   command:
+  #     ['/opt/wait-for-it.sh', 'tsps:8043', '-t', '0', '--', '/opt/install.sh']
