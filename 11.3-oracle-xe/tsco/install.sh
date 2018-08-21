@@ -22,15 +22,15 @@ else
     echo "Installing TSCO"
     echo "  Extracting archive"
     cd /opt/installers
-    tar xzf TSCO_AppServer_ver11.0.00_Linux.tar.gz
+    tar xzf TSCO_AppServer_ver11.3.01_Linux.tar.gz
 
     echo "  Encrypting DB Password"
     cd /opt/installers/BCO/Disk1
-   
-    TSCO_DB_PASSWORD=`echo postgres | ./BCOEncoder.sh postgres | tail -n 1 `
+    ./BCOEncoder.sh -genkeys
+    TSCO_DB_PASSWORD=`./BCOEncoder.sh postgres | tail -n 2 | head -n 1`
     echo "TSCO_DB_PASSWORD=$TSCO_DB_PASSWORD"
-    BCO_OWN_PASSWORD=`echo BmcCapacity_OWN | ./BCOEncoder.sh | tail -n 1 `
-    BCO_REP_PASSWORD=`echo BmcCapacity_REP | ./BCOEncoder.sh | tail -n 1 `
+    BCO_OWN_PASSWORD=`./BCOEncoder.sh BmcCapacity_OWN | tail -n 2 | head -n 1`
+    BCO_REP_PASSWORD=`./BCOEncoder.sh BmcCapacity_REP | tail -n 2 | head -n 1`
 
 
     echo "  Preparing options file"

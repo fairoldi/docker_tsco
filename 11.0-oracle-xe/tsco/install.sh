@@ -14,10 +14,37 @@ export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8 
 export LANGUAGE=en_US.UTF-8
 
+export ORACLE_BASE=/u01/app/oracle
+export ORACLE_HOME=$ORACLE_BASE/product/12.1.0/client_1
+export ORA_INVENTORY=/u01/app/oraInventory
+
 if [ -f /opt/bmc/BCO/cpit ]; then
     echo "TSCO already installed, starting"
     su - bmc -c "cd /opt/bmc/BCO ; ./cpit start"
 else
+
+    # Oracle client
+    echo "Installing oracle client"
+    cd /opt/installers
+    groupadd oinstall
+    groupadd dba
+    useradd -g oinstall -G dba oracle
+    mkdir -pv $ORACLE_BASE
+    chown -R oracle:oinstall $ORACLE_BASE
+    chmod -R 775 $ORACLE_BASE
+    mkdir -pv $ORA_INVENTORY
+    chown -R oracle:oinstall $ORA_INVENTORY
+    chmod -R 775 $ORA_INVENTORY
+
+
+    unzip -q linuxx64_12201_client.zip
+    chown -R oracle:oinstall /opt/installers/client
+
+    su - oracle -c "cd /opt/installers/client ; ./runInstaller -silent -waitforcompletion -responseFile /opt/oracle_client.rsp"
+    /u01/app/oraInventory/orainstRoot.sh
+
+    useradd -d /opt/bmc -m -G dba bmc 
+
     # TSCO
     echo "Installing TSCO"
     echo "  Extracting archive"
@@ -34,7 +61,11 @@ else
 
 
     echo "  Preparing options file"
+
     echo "-J BCO_DB_HOST=$DB_FQDN" >> /opt/tsco.conf
+    echo "-J _ORACLE_HOME_=$ORACLE_HOME" >> /opt/tsco.conf
+    echo "-J _ORACLE_SID_=XE" >> /opt/tsco.conf 
+  #  echo "-J _ORACLE_SERVICENAME_=XE" >> /opt/tsco.conf
     echo "-J BCO_DB_PASSWORD=$TSCO_DB_PASSWORD" >> /opt/tsco.conf
     echo "-J BCO_RSSO_HOSTNAME=$TSSO_FQDN" >> /opt/tsco.conf
     echo "-J BCO_TSPS_HOSTNAME=$TSPS_FQDN" >> /opt/tsco.conf
