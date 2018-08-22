@@ -110,3 +110,20 @@ GRANT &ROLE_REPORT TO &USER_REPORT
 ALTER USER &USER_REPORT DEFAULT ROLE ALL
 / 
 
+ALTER SYSTEM SET PROCESSES = 150 SCOPE = SPFILE
+/
+
+ALTER SYSTEM SET SESSIONS = 300 SCOPE = SPFILE
+/
+
+shutdown immediate
+/
+
+startup
+/
+
+show parameter sessions
+/
+
+show parameter PROCESSES
+/

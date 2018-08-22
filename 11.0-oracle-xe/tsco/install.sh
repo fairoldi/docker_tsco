@@ -43,7 +43,8 @@ else
     su - oracle -c "cd /opt/installers/client ; ./runInstaller -silent -waitforcompletion -responseFile /opt/oracle_client.rsp"
     /u01/app/oraInventory/orainstRoot.sh
 
-    useradd -d /opt/bmc -m -G dba bmc 
+    groupadd bmc
+    useradd -d /opt/bmc -m -g bmc -G dba bmc 
 
     # TSCO
     echo "Installing TSCO"
@@ -65,8 +66,7 @@ else
     echo "-J BCO_DB_HOST=$DB_FQDN" >> /opt/tsco.conf
     echo "-J _ORACLE_HOME_=$ORACLE_HOME" >> /opt/tsco.conf
     echo "-J _ORACLE_SID_=XE" >> /opt/tsco.conf 
-  #  echo "-J _ORACLE_SERVICENAME_=XE" >> /opt/tsco.conf
-    echo "-J BCO_DB_PASSWORD=$TSCO_DB_PASSWORD" >> /opt/tsco.conf
+    echo "-J _ORACLE_SERVICENAME_=XE" >> /opt/tsco.conf
     echo "-J BCO_RSSO_HOSTNAME=$TSSO_FQDN" >> /opt/tsco.conf
     echo "-J BCO_TSPS_HOSTNAME=$TSPS_FQDN" >> /opt/tsco.conf
 
