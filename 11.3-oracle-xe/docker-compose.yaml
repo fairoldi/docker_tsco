@@ -48,11 +48,9 @@ services:
     privileged: true
     build: db
     ports:
-      - '5432:5432'
+      - '1521:1521'
     env_file:
       - .env
-    environment:
-      - POSTGRES_PASSWORD=postgres
     networks:
       tsco_net:
         aliases:
@@ -77,5 +75,5 @@ services:
           - ${TSCO_HOSTNAME}.${DOMAIN}
     stdin_open: true
     tty: true
-    command:
+    command: 
       ['/opt/wait-for-it.sh', 'tsps:8043', '-t', '0', '--', '/opt/install.sh']

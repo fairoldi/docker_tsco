@@ -55,8 +55,6 @@ else
     echo "  Encrypting DB Password"
     cd /opt/installers/BCO/Disk1
    
-    TSCO_DB_PASSWORD=`echo postgres | ./BCOEncoder.sh postgres | tail -n 1 `
-    echo "TSCO_DB_PASSWORD=$TSCO_DB_PASSWORD"
     BCO_OWN_PASSWORD=`echo BmcCapacity_OWN | ./BCOEncoder.sh | tail -n 1 `
     BCO_REP_PASSWORD=`echo BmcCapacity_REP | ./BCOEncoder.sh | tail -n 1 `
 
